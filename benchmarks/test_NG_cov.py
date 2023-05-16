@@ -2,13 +2,14 @@ import numpy as np
 import pyccl as ccl
 import pytest
 import time
+import os
 
 @pytest.fixture(scope='module')
 def set_up():
     t0 = time.time()
     
     # Benchmark data path
-    bm_path = os.path.dirname(__file__) + 'data_NGcov/'
+    bm_path = os.path.dirname(__file__) + '/data_NGcov/'
     
     # Setting general cosmology
     sigma8=0.8
@@ -103,9 +104,8 @@ def test_tkk(set_up, trispec):
         bm = bms_tkk[trispec]
         tkk = ccl.halos.halomod_trispectrum_4h(cosmo=COSMO, hmc=hmc, k=lk_arr, a=a_arr, prof1=prf, normprof1=True)
 
-    assert tkk.flatten() = pytest.approx(bm.flatten(), rel=1e-5)
-    
-    
+    assert tkk.flatten() == pytest.approx(bm.flatten(), rel=1e-3)
+        
 # Testing projected trispectrum
 @pytest.mark.parametrize('trc', ['gcl', 
                                  'csh', 
@@ -127,4 +127,4 @@ def test_tll(set_up, trc):
         bm = bms_tll[trc]
         tll = ccl.angular_cl_cov_cNG(cosmo=COSMO, cltracer1=gcl, cltracer2=csh, ell=ell, tkka=tkk, fsky=1.)
 
-    assert tll.flatten() = pytest.approx(bm.flatten(), rel=1e-5)
+    assert tll.flatten() == pytest.approx(bm.flatten(), rel=1e-5)

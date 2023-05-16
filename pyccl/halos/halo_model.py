@@ -1743,7 +1743,7 @@ def halomod_trispectrum_4h(cosmo, hmc, k, a, prof1, prof2=None,
     if np.ndim(k) == 0:
         out = np.squeeze(out, axis=-1)
         out = np.squeeze(out, axis=-1)
-    return t1113 + t1122 # out
+    return out
 
 def halomod_Tk3D_1h(cosmo, hmc,
                     prof1, prof2=None, prof12_2pt=None,
